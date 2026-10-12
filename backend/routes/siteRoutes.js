@@ -1,0 +1,15 @@
+const router = require("express").Router();
+const c = require("../controllers/siteController");
+const Expense = require("../models/Expense");
+const Material = require("../models/Material");
+const Labour = require("../models/Labour");
+const ClientPayment = require("../models/ClientPayment");
+router.route("/").get(c.list).post(c.create);
+router.get("/:id/summary", c.summary);
+router.get("/:id/expenses", c.related(Expense, "supplier"));
+router.get("/:id/materials", c.related(Material, "supplier"));
+router.get("/:id/labour", c.related(Labour));
+router.get("/:id/payments", c.related(ClientPayment));
+router.get("/:id/suppliers", c.suppliers);
+router.route("/:id").get(c.get).patch(c.update).delete(c.remove);
+module.exports = router;
